@@ -1,13 +1,12 @@
 # Dawid Mak Portfolio
-# Projects
 ## Projects
 ### Project 1
--description
--link
+- description
+- link
 
 ### Project 2
--description
--link
+- description
+- link
 
 # Education
 -University
