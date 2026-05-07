@@ -1,0 +1,451 @@
+/* ============================================================
+   PORTFOLIO STYLESHEET
+   Dawid Mak — Game programmer portfolio
+   ============================================================
+   Sections (search for the banner comments):
+     1. DESIGN TOKENS  — colours, max-widths
+     2. RESET & BASE   — global resets, body defaults
+     3. LAYOUT HELPERS — .container
+     4. NAV
+     5. HERO
+     6. SECTIONS       — generic section + headers
+     7. PROJECTS
+     8. ABOUT
+     9. FOOTER
+    10. ANIMATIONS
+    11. RESPONSIVE     — mobile breakpoints
+   ============================================================ */
+ 
+ 
+/* ── 1. DESIGN TOKENS ─────────────────────────────────────────
+   CSS custom properties (variables). Change a colour here and
+   it updates everywhere. Same idea as #define in C++.
+   ============================================================ */
+:root {
+  --bg: #0d0d0e;          /* page background */
+  --bg-elev: #161617;     /* slightly lighter, for cards */
+  --text: #e8e4dc;        /* main text — warm off-white */
+  --text-dim: #8a857c;    /* secondary text — muted */
+  --accent: #d97757;      /* the rust/coral highlight */
+  --line: #2a2826;        /* dividers and borders */
+  --max: 1100px;          /* max content width */
+}
+ 
+ 
+/* ── 2. RESET & BASE ──────────────────────────────────────────
+   Browsers ship with default margins/padding. We zero them
+   out so we get consistent layout across browsers.
+   ============================================================ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+ 
+html { scroll-behavior: smooth; }   /* smooth jumps for #anchors */
+ 
+body {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-weight: 400;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;     /* prevents accidental horizontal scroll */
+}
+ 
+/* Subtle film-grain overlay across the whole page.
+   The SVG is inlined as a data URI so it ships with the CSS — no extra request. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+ 
+ 
+/* ── 3. LAYOUT HELPERS ────────────────────────────────────────
+   .container caps content width and centres it on big screens.
+   Reused everywhere so we never repeat these values.
+   ============================================================ */
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+ 
+ 
+/* ── 4. NAV ───────────────────────────────────────────────────*/
+nav {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--line);
+}
+nav .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+.logo span { color: var(--accent); font-style: italic; }
+ 
+nav ul {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+nav a {
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--accent); }
+ 
+ 
+/* ── 5. HERO ──────────────────────────────────────────────────*/
+.hero {
+  padding: 120px 0 100px;
+  border-bottom: 1px solid var(--line);
+}
+ 
+/* The little orange "Portfolio · 2026" tag with a dash before it */
+.label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.label::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+}
+ 
+h1 {
+  font-family: 'Instrument Serif', serif;
+  /* clamp(min, preferred, max) — fluid sizing.
+     Grows with the viewport but never tiny or huge. */
+  font-size: clamp(56px, 9vw, 120px);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-bottom: 32px;
+}
+h1 em {
+  color: var(--accent);
+  font-style: italic;
+}
+ 
+.hero p {
+  font-size: 20px;
+  max-width: 620px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+.hero p strong {
+  color: var(--text);
+  font-weight: 500;
+}
+ 
+ 
+/* ── 6. SECTIONS ──────────────────────────────────────────────*/
+section {
+  padding: 100px 0;
+  border-bottom: 1px solid var(--line);
+}
+ 
+/* Two-column header used at the top of each section */
+.section-head {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 48px;
+  margin-bottom: 80px;
+  align-items: baseline;
+}
+h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+h2 em { color: var(--accent); font-style: italic; }
+ 
+ 
+/* ── 7. PROJECTS ──────────────────────────────────────────────*/
+.project {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;  /* image slightly wider than text */
+  gap: 64px;
+  align-items: center;
+  margin-bottom: 120px;
+}
+.project:last-child { margin-bottom: 0; }
+ 
+/* The .flip modifier swaps the column order so projects alternate */
+.project.flip .project-img  { order: 2; }
+.project.flip .project-text { order: 1; }
+ 
+/* Image container — locked to 4:3 aspect ratio so all screenshots match */
+.project-img {
+  aspect-ratio: 4 / 3;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.4s ease;
+}
+.project-img:hover { transform: translateY(-4px); }
+ 
+.project-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* crop to fill, don't squash */
+  display: block;
+}
+ 
+/* Placeholder shown until you add a real screenshot */
+.project-img .placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #1a1a1c 0%, #121214 100%);
+}
+.project-img .placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 16px;
+  border: 1px dashed var(--line);
+}
+ 
+.project-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+.project h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.05;
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+.project p {
+  color: var(--text-dim);
+  margin-bottom: 24px;
+  font-size: 15px;
+}
+ 
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 5px 10px;
+  border: 1px solid var(--line);
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+ 
+.project a.link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 4px;
+  transition: color 0.2s;
+}
+.project a.link:hover { color: var(--accent); }
+.project a.link::after {
+  content: ' →';
+  color: var(--accent);
+}
+ 
+ 
+/* ── 8. ABOUT ─────────────────────────────────────────────────*/
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+}
+.about-grid p {
+  font-size: 17px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+.about-grid p strong { color: var(--text); font-weight: 500; }
+ 
+/* Right-side meta column with vertical separator line */
+.about-meta {
+  border-left: 1px solid var(--line);
+  padding-left: 32px;
+}
+.meta-row {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+.meta-row:last-child { border-bottom: none; }
+ 
+.meta-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+}
+.meta-value { font-size: 14px; text-align: right; }
+ 
+ 
+/* ── 9. FOOTER ────────────────────────────────────────────────*/
+footer { padding: 80px 0 60px; }
+ 
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 48px;
+  align-items: end;
+}
+.footer-cta {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(40px, 6vw, 80px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.footer-cta a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 2px solid var(--accent);
+  transition: color 0.2s;
+}
+.footer-cta a:hover { color: var(--accent); }
+.footer-cta em { color: var(--accent); font-style: italic; }
+ 
+.socials {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.socials a {
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.socials a:hover { color: var(--accent); }
+ 
+.copyright {
+  margin-top: 80px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+ 
+ 
+/* ── 10. ANIMATIONS ───────────────────────────────────────────
+   Hero elements fade up on page load, staggered for rhythm.
+   ============================================================ */
+.hero h1, .hero p, .hero .label {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: rise 0.8s ease forwards;
+}
+.hero .label { animation-delay: 0.1s; }
+.hero h1    { animation-delay: 0.25s; }
+.hero p     { animation-delay: 0.45s; }
+ 
+@keyframes rise {
+  to { opacity: 1; transform: translateY(0); }
+}
+ 
+ 
+/* ── 11. RESPONSIVE ───────────────────────────────────────────
+   Below 768px (tablet/mobile) we collapse multi-column grids
+   into single columns and shrink the padding.
+   ============================================================ */
+@media (max-width: 768px) {
+  .container { padding: 0 24px; }
+ 
+  nav ul { gap: 18px; }
+ 
+  .hero { padding: 80px 0 60px; }
+  section { padding: 70px 0; }
+ 
+  .section-head {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+ 
+  .project {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-bottom: 80px;
+  }
+  /* On mobile we don't want the alternating order — reset it */
+  .project.flip .project-img  { order: 0; }
+  .project.flip .project-text { order: 0; }
+ 
+  .project h3 { font-size: 32px; }
+ 
+  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .about-meta {
+    border-left: none;
+    border-top: 1px solid var(--line);
+    padding-left: 0;
+    padding-top: 16px;
+  }
+ 
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .copyright { flex-direction: column; gap: 8px; }
+}
